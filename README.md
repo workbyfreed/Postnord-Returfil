@@ -7,4 +7,4 @@ This file and format is not easy to interpret so I wrote a small Python script r
 
 This script can be complied with Pyinstaller or Nuitka or, depending on antivirus protection policies, distributed with Python embedded and run the script from a .bat file.
 
-Icon used from <a href="https://www.flaticon.com/free-icons/convert-file" title="convert file icons">Flaticon</a> created by <a ref="https://www.flaticon.com/authors/mie-nakae">Mie Nakae</a>
+Icon used from <a href="https://www.flaticon.com/free-icons/convert-file" title="convert file icons">Flaticon</a> created by <a href="https://www.flaticon.com/authors/mie-nakae">Mie Nakae</a>
