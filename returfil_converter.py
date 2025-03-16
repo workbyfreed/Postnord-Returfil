@@ -37,7 +37,7 @@ def open_file():
         return
     #Create a list of list from file, each cohesive record starts with 20 which is our mark to start a new sublist
     sublist = []
-    print('start loop')
+    #print('start loop')
     with open(url, 'r') as file:
         returfil = reader(file)
         for row in returfil:
@@ -53,9 +53,9 @@ def open_file():
         returlist.append(sublist)
     # save filename for output file
     global filename
-    print(url)
+    #print(url)
     filename = url.rsplit('/', 1)[-1].split('.', 1)[0]
-    print(filename)
+    #print(filename)
     input_file = url.split('/')[-1]
     text_open.insert('1.0', input_file)
     # Save path for output file
