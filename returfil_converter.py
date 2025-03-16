@@ -20,20 +20,24 @@ window.configure(bg='lightblue')
 
 window.wm_iconbitmap(path_to_ico)
 
-# Open file and add to list
-returlist = []
+# open file and add to list
+#returlist = []
 def open_file():
-    # Delete old field data if new file is searched for
+    # returlist inside function to be clear when new file is run without restarting program
+    global returlist
+    returlist = []
     text_open.delete('1.0', 'end')
     text_run.delete('1.0', 'end')
+    
     url = askopenfilename(
         filetypes=[('Text Files', ['*.txt', '*.csv']), ("All Files", "*.*")]
         )
     print(url)
     if not url:
         return
-    # Create a list of list from file, each cohesive record starts with 20 which is our mark to start a new sublist
+    #Create a list of list from file, each cohesive record starts with 20 which is our mark to start a new sublist
     sublist = []
+    print('start loop')
     with open(url, 'r') as file:
         returfil = reader(file)
         for row in returfil:
@@ -41,14 +45,17 @@ def open_file():
             value = row[0][2:].strip()
             tolist = [prefix, value]
             if prefix == 20:
-                returlist.append(sublist)
-                sublist = []
-            # We are only interested of prefixes between 20 and 50
+                if len(sublist) > 1:
+                    returlist.append(sublist)
+                    sublist = []
             if prefix >= 20 and prefix <= 50:
                 sublist.append(tolist)
+        returlist.append(sublist)
     # save filename for output file
     global filename
-    filename = url.split('/')[-1].split('.')[-3]
+    print(url)
+    filename = url.rsplit('/', 1)[-1].split('.', 1)[0]
+    print(filename)
     input_file = url.split('/')[-1]
     text_open.insert('1.0', input_file)
     # Save path for output file
@@ -94,10 +101,10 @@ dictmap = {
 # Process file with Run button
 def process_file():
     # Create empty dataframe with some example columns, missing columns will be added when concat
-    rcdf = pd.DataFrame(columns=[20, 21, 22, 23])
-    # Loop through returlist, skipping first empty sublist and create a dataframe per sublist with prefix as column name
-    # Then concatenate each temp dataframe to rcdf dataframe, creating a full dataframe with all rows from returlist
-    for i in returlist[1:]:
+    rcdf = pd.DataFrame()
+    # Loop through returlist, skipping for first empty sublist and create a dataframe per sublist with prefix as column name
+    # Then concatenate each temp dataframe to test2 dataframe, creating a full dataframe with all rows from returlist
+    for i in returlist:
         temp = pd.DataFrame(i, columns=['Prefix', 'Value'])
         temp = temp.set_index('Prefix').T
         frames = [rcdf, temp]
@@ -119,8 +126,10 @@ def process_file():
     path_label = tk.Label(frm_buttons, text='Open Directory', bg='lightblue', fg='blue', cursor='hand2', font=('Arial', 10, 'underline'))
     path_label.grid(row=4, column=1, sticky='sw', padx=5)
     path_label.bind('<Button-1>', lambda e: openlink(path_print))
+    # Printing to console
+    print(filepath + '/' + filename + '_' + today + '.xlsx')
 
-# Function to open directory from app link
+# Function to open directory from applink
 def openlink(path_print):
     webbrowser.open(path_print)
 
